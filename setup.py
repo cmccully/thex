@@ -15,5 +15,5 @@ setup(name='thex',
       version=0.1,
       packages=['thex'],
       setup_requires=[],
-      install_requires=['numpy', 'astropy', 'django'],
+      install_requires=['numpy', 'astropy', 'django', 'beautifulsoup4', 'requests'],
       tests_require=[])
