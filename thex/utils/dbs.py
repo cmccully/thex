@@ -5,6 +5,8 @@ author: Curtis McCully
 
 February 2017
 """
+from __future__ import absolute_import, division, print_function, unicode_literals
+
 from thex import models
 
 
@@ -16,4 +18,4 @@ def get_host_name(host_galaxy):
     :return: str
              The first name in the DB for the given host galaxy
     """
-    return models.HostName.objects.filter(galaxy=host_galaxy).first()
+    return models.HostName.objects.filter(galaxy=host_galaxy).first().name

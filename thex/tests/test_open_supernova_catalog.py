@@ -9,5 +9,5 @@ class OSPTestCase(TestCase):
     def test_load_hosts(self):
         pass
 
-    def test_load_transients:
+    def test_load_transients(self):
         pass

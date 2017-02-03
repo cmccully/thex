@@ -12,9 +12,9 @@ class HostGalaxy(models.Model):
     """
     Host galaxy object in the DB
     """
-    ra = models.FloatField(default=None)
-    dec = models.FloatField(default=None)
-    redshift = models.FloatField(default=None)
+    ra = models.FloatField(default=None, null=True)
+    dec = models.FloatField(default=None, null=True)
+    redshift = models.FloatField(default=None, null=True)
 
 
 class HostName(models.Model):
@@ -37,11 +37,11 @@ class Transient(models.Model):
     transient_types = [('SN', 'Supernova'), ('GRB', 'Gamma Ray Burst'),
                        ('TDE', 'Tidal Disruption Event'), ('Nova', 'Nova'),
                        ('AT', 'Astronomical Transient')]
-    host = models.ForeignKey(HostGalaxy, on_delete=models.CASCADE, default=None)
-    name = models.CharField(max_length=100, default=None)
-    ra = models.FloatField(default=None)
-    dec = models.FloatField(default=None)
-    discovery_date = models.DateField(default=None)
+    host = models.ForeignKey(HostGalaxy, on_delete=models.CASCADE, default=None, null=True)
+    name = models.CharField(max_length=100)
+    ra = models.FloatField(default=None, null=True)
+    dec = models.FloatField(default=None, null=True)
+    discovery_date = models.DateField(default=None, null=True)
     transient_type = models.CharField(max_length=10, choices=transient_types, default='AT')
-    transient_subtype = models.CharField(max_length=100, default=None)
-    peak_brightness = models.FloatField(default=None)
+    transient_subtype = models.CharField(max_length=100, default=None, null=True)
+    peak_brightness = models.FloatField(default=None, null=True)

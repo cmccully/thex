@@ -5,10 +5,12 @@ author: Curtis McCully
 
 January 2017
 """
+from __future__ import absolute_import, division, print_function, unicode_literals
 
 from astropy.io import ascii
-from thex import models
 from datetime import datetime
+
+from thex import models
 
 
 def load_host_galaxies(csv_filename):

@@ -5,8 +5,9 @@ author: Curtis McCully
 
 February 2017
 """
-import time
+from __future__ import absolute_import, division, print_function, unicode_literals
 
+import time
 import requests
 from astropy import units
 from astropy.coordinates import SkyCoord
