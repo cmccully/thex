@@ -9,8 +9,10 @@ from __future__ import absolute_import, division, print_function, unicode_litera
 
 from astropy.io import ascii
 from datetime import datetime
+import numpy as np
 
 from thex import models
+from thex.utils import coordinates
 
 
 def load_host_galaxies(csv_filename):
@@ -46,11 +48,24 @@ def load_supernovae(csv_filename):
     transient_table = ascii.read(csv_filename)
 
     for row in transient_table:
-        host_galaxy = models.HostGalaxy.objects.get(name=row['Host Name'])
-        transient_data = {'host': host_galaxy, 'ra': row['R.A.'], 'dec': row['Dec.'],
+        try:
+            host_galaxy = models.HostName.objects.get(name=row['Host Name']).galaxy
+        except models.HostName.DoesNotExist:
+            host_galaxy = None
+        if row['R.A.'].mask or row['Dec.'].mask:
+            ra, dec = None, None
+        else:
+            ra, dec = coordinates.average_position(row['R.A.'].split(','), row['Dec.'].split(','))
+        if row['z'].mask:
+            redshift = None
+        else:
+            redshift = np.mean([float(z) for z in row['z'].split(',')])
+
+
+        transient_data = {'host': host_galaxy, 'ra': ra, 'dec': dec,
                           'discovery_date': datetime.strptime(row['Disc. Date'], '%Y/%m/%d'),
-                          'redshift': row['z'], 'transient_type': 'SN',
+                          'redshift': redshift, 'transient_type': 'SN',
                           'transient_subtype': row['Type'], 'peak_brightness': row['mmax']}
-        transient = models.Transient.objects.get_or_create(name=row['Name'],
-                                                           defaults=transient_data)
+        transient, created = models.Transient.objects.get_or_create(name=row['Name'],
+                                                                    defaults=transient_data)
         transient.save()

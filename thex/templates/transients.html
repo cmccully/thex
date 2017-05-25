@@ -1,0 +1,15 @@
+<table>
+    <tr>
+        <th>Name</th>
+        <th>RA</th>
+        <th>Dec</th>
+        <th></th>
+    </tr>
+    {% for transient in transients %}
+        <tr>
+            <td>{{ transient.name }}</td>
+            <td>{{ transient.ra }}</td>
+            <td>{{ transient.dec }}</td>
+        </tr>
+    {% endfor %}
+</table>

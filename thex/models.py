@@ -26,8 +26,8 @@ class HostName(models.Model):
     Because host galaxies can have multiple names, their names must be their own class.
     This corresponds to its own table in the DB.
     """
-    name = models.CharField(max_length=50)
-    galaxy = models.ForeignKey(HostGalaxy, on_delete=models.CASCADE)
+    name = models.CharField(max_length=50, default=None)
+    galaxy = models.ForeignKey(HostGalaxy, on_delete=models.CASCADE, default=None)
 
 
 class Transient(models.Model):
@@ -41,6 +41,7 @@ class Transient(models.Model):
     name = models.CharField(max_length=100)
     ra = models.FloatField(default=None, null=True)
     dec = models.FloatField(default=None, null=True)
+    redshift = models.FloatField(default=None, null=True)
     discovery_date = models.DateField(default=None, null=True)
     transient_type = models.CharField(max_length=10, choices=transient_types, default='AT')
     transient_subtype = models.CharField(max_length=100, default=None, null=True)
