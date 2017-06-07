@@ -10,6 +10,7 @@ from __future__ import absolute_import, division, print_function, unicode_litera
 from astropy.io import ascii
 from datetime import datetime
 import numpy as np
+from numpy import ma
 
 from thex import models
 from thex.utils import coordinates
@@ -52,11 +53,11 @@ def load_supernovae(csv_filename):
             host_galaxy = models.HostName.objects.get(name=row['Host Name']).galaxy
         except models.HostName.DoesNotExist:
             host_galaxy = None
-        if row['R.A.'].mask or row['Dec.'].mask:
+        if row['R.A.'] is ma.masked or row['Dec.'] is ma.masked:
             ra, dec = None, None
         else:
             ra, dec = coordinates.average_position(row['R.A.'].split(','), row['Dec.'].split(','))
-        if row['z'].mask:
+        if row['z'] is ma.masked:
             redshift = None
         else:
             redshift = np.mean([float(z) for z in row['z'].split(',')])
